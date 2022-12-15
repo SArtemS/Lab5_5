@@ -46,8 +46,8 @@ class Currencies:
                 self._specific_currency = self.get_valute(_v)
                 return self._specific_currency
         self._specific_currency = dict.fromkeys(self._specific_ID.split(', '))
-        return self._specific_currency 
-    
+        return self._specific_currency
+
     @specific_currency.setter
     def specific_currency(self, new_specific_ID: str):
         print("\nСмена ID определнной валюты на " + new_specific_ID)
@@ -62,7 +62,7 @@ class Currencies:
                 if _v.get('ID') in self._favorites:
                     self._favorite_currencies.append(self.get_valute(_v))
         return self._favorite_currencies
-    
+
     @favorite_currencies.setter
     def favorite_currencies(self, IDs: list, f='favorite_currencies.ini'):
         import configparser
@@ -74,7 +74,7 @@ class Currencies:
         with open('favorite_currencies.ini', 'w') as cf:
             config.write(cf)
         print("\nID отслеживаемых валют: \n" + config['Favorites']['fav_cur'])
-    
+
     @favorite_currencies.deleter
     def favorite_currencies(self, f='favorite_currencies.ini'):
         print("\nУдаление ID отслеживаемых валют:")
@@ -87,7 +87,9 @@ class Currencies:
             config.write(cf)
         print("ID отслеживаемых валют удалены")
 
+
 test_currencies = Currencies()
+
 
 class Currencies_Test(unittest.TestCase):
 
@@ -97,26 +99,27 @@ class Currencies_Test(unittest.TestCase):
             test_currencies.specific_currency, {ID: None},
             'При неправильном ID должен выводиться словарь вида: {ID: None}')
 
-    def test_correct_ID_USD(self, ID = 'R01235'):
+    def test_correct_ID_USD(self, ID='R01235'):
         test_currencies.specific_currency = ID
         USD = test_currencies.specific_currency['USD']
         self.assertEqual(USD[0], ('Доллар США'))
         self.assertGreater(float(USD[1]), 0)
         self.assertLess(float(USD[1]), 200)
 
-    def test_correct_ID_EUR(self, ID = 'R01239'):
+    def test_correct_ID_EUR(self, ID='R01239'):
         test_currencies.specific_currency = ID
         EUR = test_currencies.specific_currency['EUR']
         self.assertEqual(EUR[0], ('Евро'))
         self.assertGreater(float(EUR[1]), 0)
         self.assertLess(float(EUR[1]), 200)
 
-    def test_correct_ID_JPY(self, ID = 'R01820'):
+    def test_correct_ID_JPY(self, ID='R01820'):
         test_currencies.specific_currency = ID
         JPY = test_currencies.specific_currency['JPY']
         self.assertEqual(JPY[0], ('Японских иен'))
         self.assertGreater(float(JPY[1]), 0)
         self.assertLess(float(JPY[1]), 200)
+
 
 if __name__ == '__main__':
     Current_Currencies = Currencies()
@@ -128,5 +131,5 @@ if __name__ == '__main__':
     print(Current_Currencies.favorite_currencies, sep='\n')
     Current_Currencies.favorite_currencies = ['R01710A', 'R01775']
     print(Current_Currencies.favorite_currencies, sep='\n')
-    
+
     unittest.main()
